@@ -5,9 +5,12 @@ addr="https://www.srf.ch/feed/podcast/sd/d0d9378f-add4-4449-977f-71e52331472d.xm
 content=$(wget $addr -q -O -)
 mp3=$(echo "$content" | grep -m1 "url=" | head -1)
 file=$(echo "$mp3" | awk -F"\"" '{print $28}')
-wget -Nq $file
-file=${file##*/}
-new=${file##*/}
-new=${new%'?'*}
-mv $file $new
-cp $new /media/DLNA/SRG-100Sekunden && rm $new
+check=${file##*/}
+if [ ! -f "/media/DLNA/SRG-100Sekunden/$check" ]; then
+  wget -Nq $file
+  file=${file##*/}
+  new=${file##*/}
+  new=${new%'?'*}
+  mv $file $new
+  cp $new /media/DLNA/SRG-100Sekunden && rm $new
+fi
