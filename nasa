@@ -1,0 +1,10 @@
+#!/bin/bash
+# get NASA pic of the day and store it on DLNA
+
+addr="https://earthobservatory.nasa.gov/Feeds/rss/eo_iotd.rss"
+content=$(wget $addr -q -O -)
+img=$(echo "$content" | grep -m1 "media:thumbnail url=" | head -1)
+file=$(echo "$img" | awk -F"\"" '{print $2}')
+wget -Nq $file
+file=${file##*/}
+cp $file /media/DLNA/NASA && rm $file
