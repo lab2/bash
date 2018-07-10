@@ -3,4 +3,3 @@
 
 ./nasa & 2> aggregator.log; 
 ./100sekunden & 2> aggregator.log;
-./espresso & 2> aggregator.log;
